@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/logoIcon.png">
     <title>Seja um Voluntário</title>
 
     <style>
@@ -12,23 +13,128 @@
             src: url(font/Montserrat-VariableFont_wght.ttf);
         }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: rgba(187, 184, 184, 0.726);
-            align-items: center;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
             justify-content: center;
-            text-align: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f6eac086;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        .image-background {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .background-image {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .content {
+            width: 50%;
+            padding: 2rem;
         }
 
         h1 {
             color: rgba(251, 38, 115, 1);
-            font-family: Montserrat;
+            margin-bottom: 2rem;
         }
-        form{
-            width: 100vh;
-            height: 70vh;
-            background-color: white;
-            border-radius: 5%;
-            box-shadow: 10px 10px 5px #888888;
+
+        .volunteer-form {
+            background-color: rgba(251, 38, 116, 0.503);
+            border-radius: 2%;
+            box-shadow: 10px 10px 10px #44444456;
+            padding: 2rem;
+        }
+
+        .form-elements {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        ::placeholder {
+            color: white;
+        }
+
+        input {
+
+            display: flex;
+            width: 400px;
+            height: 30px;
+            margin-bottom: 20px;
+            background-color: #7b52b900;
+            border: 0 none;
+            border-bottom: 2px solid rgba(224, 224, 224, 1);
+            outline: 0;
+            text-align: left;
+        }
+
+
+        .btn {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        #Mensagem {
+            resize: none;
+            background-color: #44444400;
+            border: 1px solid white;
+            height: 10vh;
+            width: 400px;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            background-color: rgba(251, 38, 115, 1);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+
+
+        }
+        
+
+        .container {
+            display: flex;
+
+        }
+
+        .imagem-mao {
+            margin-left: 13px;
+            width: 9vh;
+            height: 9vh;
+            margin-top: -2vh;
+        }
+
+        button:hover {
+            background-color: #e6006f;
+        }
+
+        p {
+            text-align: center;
+            color: white;
+        }
+
+        a {
+            color: white;
+           text-align: center;
         }
     </style>
 
@@ -36,17 +142,56 @@
 
 <body>
 
-    <h1>Seja um Voluntariado!</h1>
+    <!DOCTYPE html>
+    <html lang="pt-br">
 
-    <div class="modal-content">
-        <form class="login-form">
-            <div class="formulario">
-                <input id="botao-nome" type="text" placeholder="Nome:">
-                <input id="botao-email" type="email" placeholder="Email:">
-                <textarea id="Mensagem" placeholder="Digite sua Mensagem:"></textarea>
-                <div class="btn"><button id="btn">ENVIAR</button></div>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Seja um Voluntário</title>
+
+        <link rel="stylesheet" href="styles.css">
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="image-background">
+                <img class="background-image" src="img/image-removebg-preview (2).png" alt="Imagem de Fundo">
             </div>
-        </form>
+
+            <div class="content">
+
+
+                <div class="container">
+                    <h1>Seja um Voluntário!</h1>
+                    <div class="mao"> <img class="imagem-mao" src="img/logoIcon.png" alt=""></div>
+
+                </div>
+                <form class="volunteer-form">
+                    <div class="form-elements">
+
+                        <input id="botao-nome" type="text" placeholder="Seu nome">
+
+
+                        <input id="botao-email" type="email" placeholder="Seu email">
+
+
+                        <textarea id="Mensagem" placeholder="Digite sua mensagem"></textarea>
+
+
+                        <p>*Obrigatório ter uma foto de perfil!</p>
+                        <a href="foto.html"> Tire aqui sua foto </a>
+                        <div class="btn">
+                            <button id="btn">Enviar</button>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+
+    </html>
 
 </body>
 

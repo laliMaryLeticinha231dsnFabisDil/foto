@@ -1,59 +1,126 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Seu Perfil</title>
     <style>
+        @font-face {
+            font-family: 'Montserrat';
+            src: url(font/Montserrat-VariableFont_wght.ttf);
+        }
 
-        
+        body {
+            background-image: url('img/Design\ sem\ nome\ \(16\).png');
+            background-size: cover;
+            background-size: 110%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: rgba(251, 38, 115, 1);
+            text-align: center;
+        }
+
+        #camera {
+            width: 340px;
+            margin: 7px;
+        }
+
         #foto {
-            height: 300px;
-            width: 300px;
+            height: 200px;
+            width: 200px;
             border-radius: 150px;
             background-size: cover;
             background-position: 50%;
             margin: 20px;
-
-        }
-
-        #camera {
-            width: 640px;
-            margin: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid rgba(230, 204, 113, 0.74);
         }
 
         .trash-icon {
             width: 20px;
             height: 20px;
             cursor: pointer;
-            background-image: url('lixeira.png'); /* Adicione o caminho para o ícone de lixeira */
+            background-image: url('lixeira.png');
+            /* Adicione o caminho para o ícone de lixeira */
             background-size: cover;
             display: inline-block;
+            margin-top: 4vh;
+        }
+
+        #foto-container {
+            cursor: pointer;
+        }
+
+        .video {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .foto-centralizada {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .esconder {
+            display: none;
+        }
+
+        button {
+            background-color:rgba(251, 38, 116, 0.64);
+            color: white;
+            width: 20vh;
+            margin: 5vh;
+            height: 4vh;
+            border: 1px solid rgba(0, 0, 0, 0);
+            border-radius: 5vh;
+        }
+
+        .botoes {
+            margin-top: 5vh;
+            display: flex;
+
         }
     </style>
 </head>
+
 <body>
-    
-    <video id="camera" autoplay></video>
+    <h1>Seu Perfil</h1>
+
     <div id="foto"></div>
-    <button onclick="abrirCamera()">Abrir Câmera</button>
-    <button onclick="tirarFoto()">Tirar Foto</button>
-    <button onclick="fechar()">Fechar Câmera</button>
-
-    <h2>Seja voluntário da Passatempo Educativo</h2>
-   
-        <div id="foto">
-            <!-- Adicionando a lixeira -->
-            <div class="trash-icon" onclick="removerFoto()"></div>
-        </div>
-
+    <div class="video">
+        <video id="camera" autoplay></video>
+    </div>
+    <div class="botoes">
+        <button onclick="abrirCamera()">Abrir Câmera</button>
+        <button onclick="tirarFoto()">Tirar Foto</button>
+        <button onclick="fechar()">Fechar Câmera</button>
+        <div class="trash-icon" onclick="removerFoto()"></div>
     </div>
 
 
-    
+
+    <!-- Adicionando a lixeira -->
+
+
+
     <script>
-
-
         var mediaStream;
 
         function abrirCamera() {
@@ -71,8 +138,7 @@
         function tirarFoto() {
             const areaVideo = document.getElementById('camera');
 
-            // Verifica se o vídeo está carregado e reproduzindo
-            if (areaVideo.readyState >= 3) { // O valor 3 significa que o vídeo está pronto para reproduzir
+            if (areaVideo.readyState >= 3) {
                 const canvas = document.createElement('canvas');
                 canvas.width = areaVideo.videoWidth;
                 canvas.height = areaVideo.videoHeight;
@@ -84,12 +150,9 @@
                 const fotoDiv = document.getElementById('foto');
                 fotoDiv.style.backgroundImage = `url(${imageDataURL})`;
 
-                const downloadLink = document.createElement('a');
-
-                downloadLink.href = imageDataURL;
-                downloadLink.download = 'foto.png';
-                downloadLink.textContent = 'Clique aqui';
-                document.body.appendChild(downloadLink);
+                // Esconder a câmera e mostrar a foto
+                document.getElementById('video-container').classList.add('esconder');
+                document.getElementById('foto-container').classList.remove('esconder');
             } else {
                 console.error('O vídeo não está pronto para capturar uma foto.');
             }
@@ -98,7 +161,6 @@
         function fechar() {
             const areaVideo = document.getElementById('camera');
 
-            // Verifica se existe um stream ativo antes de desligar
             if (mediaStream) {
                 mediaStream.getTracks().forEach(track => track.stop());
             }
@@ -106,16 +168,28 @@
             areaVideo.srcObject = null;
             mediaStream = null;
         }
-        
-        // Seu JavaScript existente
 
         function removerFoto() {
             const fotoDiv = document.getElementById('foto');
             fotoDiv.style.backgroundImage = ''; // Remove a imagem de fundo
+
+            // Mostrar a câmera e esconder a foto
+            document.getElementById('video-container').classList.remove('esconder');
+            document.getElementById('foto-container').classList.add('esconder');
         }
 
+        function baixarFoto() {
+            const fotoDiv = document.getElementById('foto');
+            const imageSrc = fotoDiv.style.backgroundImage.slice(5, -2); // Pegar o URL da imagem
 
+            const link = document.createElement('a');
+            link.href = imageSrc;
+            link.download = 'foto.png'; // Nome do arquivo a ser baixado
 
+            // Simula o clique no link
+            link.dispatchEvent(new MouseEvent('click'));
+        }
     </script>
 </body>
+
 </html>
