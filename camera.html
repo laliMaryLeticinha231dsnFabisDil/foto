@@ -5,24 +5,119 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Câmera</title>
 
-    <style>
-        #foto{
-            height: 300px;
-            width: 300px;
-            border-radius: 150px;
-            background-size: cover;
-            background-position: 50%;
-            margin: 20px;
-
-        }
-
-        #camera{
-            width: 640px;
-            margin: 20px;
-        }
-    </style>
+   
 </head>
 <body>
+    <video  id="camera" autoplay></video>
+    <div id="foto"></div>
+    <button onclick="abrirCamera()">Abrir Câmera</button>
+    <button onclick="tirarFoto()">Tirar Foto</button>
+    <button onclick="fechar()">Fechar Câmera</button>
+
+
+
+
+
+
+
+
+
+<script>
+        // var mediaStream;
+
+        // function abrirCamera() {
+        //     navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+        //         .then(function (stream) {
+        //             mediaStream = stream;
+        //             const areaVideo = document.getElementById('camera');
+        //             areaVideo.srcObject = stream;
+        //         })
+        //         .catch(function (error) {
+        //             console.error('Erro ao acessar a câmera:', error);
+        //         });
+        // }
+
+        // function tirarFoto() {
+        //     const areaVideo = document.getElementById('camera');
+
+        //     // Verifica se o vídeo está carregado e reproduzindo
+        //     if (areaVideo.readyState >= 3) {
+        //         const canvas = document.createElement('canvas');
+        //         canvas.width = areaVideo.videoWidth;
+        //         canvas.height = areaVideo.videoHeight;
+        //         const context = canvas.getContext('2d');
+        //         context.drawImage(areaVideo, 0, 0, canvas.width, canvas.height);
+
+        //         const imageDataURL = canvas.toDataURL('image/png');
+
+        //         const foto = document.getElementById('foto');
+        //         foto.src = imageDataURL;
+        //     } else {
+        //         console.error('O vídeo não está pronto para capturar uma foto.');
+        //     }
+        // }
+
+        // function fechar() {
+        //     const areaVideo = document.getElementById('camera');
+
+        //     // Verifica se existe um stream ativo antes de desligar
+        //     if (mediaStream) {
+        //         mediaStream.getTracks().forEach(track => track.stop());
+        //     }
+
+        //     areaVideo.srcObject = null;
+        //     mediaStream = null;
+        // }
+
+        // abrirCamera(); // Iniciar a câmera ao carregar a página
+
+
+   var mediaStream;
+
+    function abrirCamera(){
+        navigator.mediaDevices.getUserMedia({video: true, audio: false})
+        .then(function (stream){
+            mediaStream = stream;
+            const areaVideo = document.getElementById('camera');
+            areaVideo.srcObject = stream;
+        })
+        .catch(function (error){
+            console.error('erro ao acessar a câmera:', error);
+        })
+    }
+
+    function tirarFoto(){
+        const areaVideo = document.getElementById('camera');
+        const canvas = document.createElement('canvas');
+        canvas.width = areaVideo.videoWidth;
+        canvas.height = areaVideo.videoHeight;
+        const context = canvas.getContext('2d');
+        context.drawImage(areaVideo,0,0, canvas.width, canvas.height)
+
+        const imageDataUrl = canvas.toDataURL();
+
+        const fotoDiv = document.getElementById('foto');
+        fotoDiv.style.backgroundImage =  `url(${imageDataURL})`;
+
+        const downloadLink = document.createElement('a');
+
+        downloadLink.href = imageDataURL;
+        downloadLink.download = 'foto.png';
+        downloadLink.textContent = 'clique aqui';
+        document.body.appendChild(downloadLink);
+    }
+
+    function fechar(){
+        navigator.mediaDevices.getUserMedia({ video:false});
+        const areaVideo = document.getElementById('camera');
+        areaVideo.srcObject = null;
+        mediaStream = null;
+    }
+
+
+
     
+</script>
+
 </body>
 </html>

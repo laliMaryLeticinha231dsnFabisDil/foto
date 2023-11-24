@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        
+        #foto {
+            height: 300px;
+            width: 300px;
+            border-radius: 150px;
+            background-size: cover;
+            background-position: 50%;
+            margin: 20px;
+
+        }
+
+        #camera {
+            width: 640px;
+            margin: 20px;
+        }
+
+        .trash-icon {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            background-image: url('lixeira.png'); /* Adicione o caminho para o ícone de lixeira */
+            background-size: cover;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    
+    <video id="camera" autoplay></video>
+    <div id="foto"></div>
+    <button onclick="abrirCamera()">Abrir Câmera</button>
+    <button onclick="tirarFoto()">Tirar Foto</button>
+    <button onclick="fechar()">Fechar Câmera</button>
+
+    <h2>Seja voluntário da Passatempo Educativo</h2>
+   
+        <div id="foto">
+            <!-- Adicionando a lixeira -->
+            <div class="trash-icon" onclick="removerFoto()"></div>
+        </div>
+
+    </div>
+
+
+    
+    <script>
+
+
+        var mediaStream;
+
+        function abrirCamera() {
+            navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+                .then(function (stream) {
+                    mediaStream = stream;
+                    const areaVideo = document.getElementById('camera');
+                    areaVideo.srcObject = stream;
+                })
+                .catch(function (error) {
+                    console.error('Erro ao acessar a câmera:', error);
+                });
+        }
+
+        function tirarFoto() {
+            const areaVideo = document.getElementById('camera');
+
+            // Verifica se o vídeo está carregado e reproduzindo
+            if (areaVideo.readyState >= 3) { // O valor 3 significa que o vídeo está pronto para reproduzir
+                const canvas = document.createElement('canvas');
+                canvas.width = areaVideo.videoWidth;
+                canvas.height = areaVideo.videoHeight;
+                const context = canvas.getContext('2d');
+                context.drawImage(areaVideo, 0, 0, canvas.width, canvas.height);
+
+                const imageDataURL = canvas.toDataURL();
+
+                const fotoDiv = document.getElementById('foto');
+                fotoDiv.style.backgroundImage = `url(${imageDataURL})`;
+
+                const downloadLink = document.createElement('a');
+
+                downloadLink.href = imageDataURL;
+                downloadLink.download = 'foto.png';
+                downloadLink.textContent = 'Clique aqui';
+                document.body.appendChild(downloadLink);
+            } else {
+                console.error('O vídeo não está pronto para capturar uma foto.');
+            }
+        }
+
+        function fechar() {
+            const areaVideo = document.getElementById('camera');
+
+            // Verifica se existe um stream ativo antes de desligar
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop());
+            }
+
+            areaVideo.srcObject = null;
+            mediaStream = null;
+        }
+        
+        // Seu JavaScript existente
+
+        function removerFoto() {
+            const fotoDiv = document.getElementById('foto');
+            fotoDiv.style.backgroundImage = ''; // Remove a imagem de fundo
+        }
+
+
+
+    </script>
+</body>
+</html>
